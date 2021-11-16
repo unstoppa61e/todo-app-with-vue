@@ -1,13 +1,10 @@
-'use strict'
-
-var vm = new Vue({
-  el: '#app',
-  data: {
+const app = Vue.createApp({
+  data: () => ({
     newItem: '',
     buttonLabel: 'Add',
     editingIndex: -1,
     todos: []
-  },
+  }),
   watch: {
     todos: {
       handler: function() {
@@ -15,9 +12,6 @@ var vm = new Vue({
       },
       deep: true
     }
-  },
-  mounted: function() {
-    this.todos = JSON.parse(localStorage.getItem('todos')) || []
   },
   methods: {
     setItem: function() {
@@ -47,5 +41,10 @@ var vm = new Vue({
     setButtonText: function () {
       this.buttonLabel = 'Update'
     }
-  }
+  },
+  mounted: function() {
+    this.todos = JSON.parse(localStorage.getItem('todos')) || []
+  },
 })
+
+app.mount('#app')
