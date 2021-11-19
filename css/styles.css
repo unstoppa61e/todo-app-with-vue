@@ -29,6 +29,11 @@ body {
     color: #08c;
 }
 
+.edit {
+    font-style: italic;
+    color: gray;
+}
+
 [v-cloak] {
     display: none;
 }

@@ -10,38 +10,41 @@ const app = Vue.createApp({
   }),
   watch: {
     todos: {
-      handler: function() {
+      handler: function () {
         localStorage.setItem('todos', JSON.stringify(this.todos))
       },
       deep: true
     }
   },
   methods: {
-    setItem: function() {
+    setItem: function () {
       const item = this.newItem
       if (item === '') {
         return
       }
-      if (this.isEditing()) {
+      if (this.isEditionMode()) {
         this.todos[this.editingItemIndex] = item
       } else {
         this.todos.push(item)
       }
       this.resetStatus()
     },
-    isEditing: function () {
+    isEditionMode: function () {
       return this.editingItemIndex !== additionIndex
     },
-    deleteItem: function(index) {
+    deleteItem: function (index) {
       if (confirm('Are you sure?')) {
         this.todos.splice(index, 1)
         this.resetStatus()
       }
     },
-    editItem: function(index) {
+    editItem: function (index) {
       this.newItem = this.todos[index]
       this.editingItemIndex = index
       this.buttonLabel = 'Update'
+    },
+    isEditingItem: function (index) {
+      return index === this.editingItemIndex
     },
     resetStatus: function () {
       this.buttonLabel = additionButtonLabel
@@ -49,9 +52,9 @@ const app = Vue.createApp({
       this.newItem = ''
     }
   },
-  mounted: function() {
+  mounted: function () {
     this.todos = JSON.parse(localStorage.getItem('todos')) || []
-  },
+  }
 })
 
 app.mount('#app')

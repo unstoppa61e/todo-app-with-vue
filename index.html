@@ -12,8 +12,8 @@
   <p v-show="!todos.length">Nothing to do, yay!</p>
   <ul>
     <li v-for="(todo, index) in todos">
-      <span>{{ todo }}</span>
-      <span @click="editItem(index)" class="command">[edit]</span>
+      <span :class="[isEditingItem(index) ? 'edit' : '']">{{ todo }}</span>
+      <span v-show="!isEditingItem(index)" @click="editItem(index)" class="command"> [edit]</span>
       <span @click="deleteItem(index)" class="command">[x]</span>
     </li>
   </ul>
