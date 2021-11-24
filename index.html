@@ -9,7 +9,7 @@
 
 <div id="app" class="container" v-cloak>
   <h1>My Todos</h1>
-  <p v-show="!todos.length">Nothing to do, yay!</p>
+  <p v-show="noToDos">Nothing to do, yay!</p>
   <ul>
     <li v-for="(todo, index) in todos">
       <span :class="[isEditingItem(index) ? 'edit' : '']">{{ todo }}</span>

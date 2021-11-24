@@ -1,59 +1,59 @@
-const additionButtonLabel = 'Add'
 const additionIndex = -1
 
 const app = Vue.createApp({
-  data: () => ({
-    newItem: '',
-    buttonLabel: additionButtonLabel,
-    editingItemIndex: additionIndex,
-    todos: []
-  }),
-  watch: {
-    todos: {
-      handler: function () {
-        localStorage.setItem('todos', JSON.stringify(this.todos))
-      },
-      deep: true
+  data () {
+    return {
+      newItem: '',
+      editingItemIndex: additionIndex,
+      todos: []
     }
   },
   methods: {
-    setItem: function () {
+    setItem () {
       const item = this.newItem
       if (item === '') {
         return
       }
-      if (this.isEditionMode()) {
+      if (this.isEditionMode) {
         this.todos[this.editingItemIndex] = item
       } else {
         this.todos.push(item)
       }
+      localStorage.setItem('todos', JSON.stringify(this.todos))
       this.resetStatus()
     },
-    isEditionMode: function () {
-      return this.editingItemIndex !== additionIndex
-    },
-    deleteItem: function (index) {
+    deleteItem (index) {
       if (confirm('Are you sure?')) {
         this.todos.splice(index, 1)
+        localStorage.setItem('todos', JSON.stringify(this.todos))
         this.resetStatus()
       }
     },
-    editItem: function (index) {
+    editItem (index) {
       this.newItem = this.todos[index]
       this.editingItemIndex = index
-      this.buttonLabel = 'Update'
     },
-    isEditingItem: function (index) {
+    isEditingItem (index) {
       return index === this.editingItemIndex
     },
-    resetStatus: function () {
-      this.buttonLabel = additionButtonLabel
+    resetStatus () {
       this.editingItemIndex = additionIndex
       this.newItem = ''
     }
   },
-  mounted: function () {
+  mounted () {
     this.todos = JSON.parse(localStorage.getItem('todos')) || []
+  },
+  computed: {
+    noToDos () {
+      return !this.todos.length
+    },
+    isEditionMode () {
+      return this.editingItemIndex !== additionIndex
+    },
+    buttonLabel () {
+      return this.isEditionMode ? 'Update' : 'Add'
+    }
   }
 })
 
